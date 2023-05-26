@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     // scroll to the bottom of the page when user enters the tab
-    window.addEventListener("focus", () => setTimeout(this.scrollToBottom, 0));
+    window.addEventListener("focus", () => setTimeout(this.scrollToBottom, 50));
 
     this.polling();
     this.$refs.loginUsername.focus();
@@ -76,10 +76,11 @@ export default {
       if (this.loginUsername !== "" || this.loginUsername !== null) {
         this.username = this.loginUsername;
 
-        // reset the login usernam
-
+        // reset the login username
         this.loginUsername = "";
 
+        // move the scroll to the bottom after the user logs in
+        // so it can see all messages
         setTimeout(() => {
           this.scrollToBottom();
         }, 0);
@@ -90,7 +91,9 @@ export default {
     },
     scrollToBottom() {
       if (document.getElementsByClassName("view chat")[0]) {
-        document.getElementsByClassName("view chat")[0].scrollIntoView(false);
+        document
+          .getElementsByClassName("view chat")[0]
+          .scrollIntoView(false, { behavior: "smooth" });
       }
     },
     getMessage() {
